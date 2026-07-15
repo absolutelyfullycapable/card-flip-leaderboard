@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>카드 뒤집기 게임</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="bg-orb bg-orb-a" aria-hidden="true"></div>
+  <div class="bg-orb bg-orb-b" aria-hidden="true"></div>
+
+  <div class="page is-locked" id="page">
+    <header class="hero">
+      <div class="logo-mark" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <p class="brand">FLIP ARENA</p>
+      <h1>카드 뒤집기</h1>
+      <p class="tagline">같은 문양을 찾아 보드를 클리어하세요</p>
+    </header>
+
+    <section class="hud" aria-label="게임 상태">
+      <div class="hud-chip">
+        <span class="hud-label">PLAYER</span>
+        <span class="hud-value player-name" id="playerLabel">-</span>
+      </div>
+      <div class="hud-chip">
+        <span class="hud-label">TIME</span>
+        <span class="hud-value"><span id="time">0.0</span><span class="hud-unit">s</span></span>
+      </div>
+      <div class="hud-chip">
+        <span class="hud-label">MOVES</span>
+        <span class="hud-value"><span id="moves">0</span></span>
+      </div>
+      <div class="hud-chip accent">
+        <span class="hud-label">LEFT</span>
+        <span class="hud-value" id="pairsLeft">8</span>
+      </div>
+      <div class="hud-actions">
+        <button type="button" class="btn btn-ghost" id="changeNameBtn">이름 변경</button>
+        <button type="button" class="btn btn-ghost" id="resetBtn">다시 시작</button>
+      </div>
+    </section>
+
+    <main class="layout">
+      <section class="board-stage" aria-label="카드 보드">
+        <div class="board-frame">
+          <div class="board-corner tl" aria-hidden="true"></div>
+          <div class="board-corner tr" aria-hidden="true"></div>
+          <div class="board-corner bl" aria-hidden="true"></div>
+          <div class="board-corner br" aria-hidden="true"></div>
+          <div class="board" id="board" role="grid" aria-label="4 by 4 카드 그리드"></div>
+        </div>
+      </section>
+
+      <aside class="side-panel">
+        <section class="scoreboard" aria-labelledby="leaderboard-title">
+          <div class="scoreboard-head">
+            <h2 id="leaderboard-title">SCOREBOARD</h2>
+            <span class="badge">TOP 10</span>
+          </div>
+          <p class="side-note" id="leaderboardNote">빠른 클리어 · 적은 시도</p>
+          <ol class="leaderboard-list" id="leaderboardList">
+            <li class="leaderboard-empty">불러오는 중…</li>
+          </ol>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <div class="overlay" id="startOverlay" role="dialog" aria-modal="true" aria-labelledby="startTitle">
+    <div class="modal">
+      <div class="modal-logo" aria-hidden="true">
+        <span></span><span></span>
+      </div>
+      <p class="modal-eyebrow">READY?</p>
+      <h2 id="startTitle">플레이어 등록</h2>
+      <p class="modal-desc">이름을 입력하고 보드에 입장하세요</p>
+      <label class="field">
+        <span>플레이어 이름</span>
+        <input type="text" id="playerName" maxlength="12" placeholder="예: 지은" autocomplete="nickname">
+      </label>
+      <p class="save-status" id="startStatus" aria-live="polite"></p>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-primary" id="startBtn">게임 시작</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay hidden" id="clearOverlay" role="dialog" aria-modal="true" aria-labelledby="clearTitle">
+    <div class="modal modal-clear">
+      <p class="modal-eyebrow win">CLEAR!</p>
+      <h2 id="clearTitle">보드 클리어</h2>
+      <p class="modal-result">
+        <span id="finalPlayer">플레이어</span> ·
+        <span id="finalTime">0.0</span>초 ·
+        <span id="finalMoves">0</span>회 시도
+      </p>
+      <p class="save-status" id="saveStatus" aria-live="polite"></p>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-primary" id="saveBtn">기록 저장</button>
+        <button type="button" class="btn btn-ghost" id="playAgainBtn">한 판 더</button>
+        <button type="button" class="btn btn-ghost" id="clearChangeNameBtn">이름 변경</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- 실제 키는 gitignore된 config.js에만 둡니다. 없으면 config.example.js를 복사하세요. -->
+  <script src="config.js"></script>
+  <script>
+    (function () {
+      var config = window.SUPABASE_CONFIG;
+      if (
+        !config ||
+        !config.url ||
+        String(config.url).includes("YOUR_PROJECT_REF") ||
+        !config.anonKey ||
+        String(config.anonKey).includes("YOUR_SUPABASE")
+      ) {
+        console.warn(
+          "[카드 뒤집기] config.js가 없거나 비어 있습니다. config.example.js를 복사해 config.js를 만든 뒤 키를 넣어 주세요."
+        );
+      }
+    })();
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
+

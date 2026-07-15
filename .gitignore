@@ -1,0 +1,6 @@
+# Supabase 키 등 로컬 비밀값 — 절대 커밋하지 마세요
+config.js
+config.local.js
+*.local.js
+.env
+.env.*

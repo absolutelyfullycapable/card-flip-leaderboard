@@ -1,0 +1,7 @@
+{
+  "name": "card-flip-leaderboard",
+  "private": true,
+  "scripts": {
+    "build": "node generate-config.js"
+  }
+}
