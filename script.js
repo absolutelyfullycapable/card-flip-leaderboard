@@ -32,7 +32,7 @@
   const startBtn = document.getElementById("startBtn");
   const startStatusEl = document.getElementById("startStatus");
   const playAgainBtn = document.getElementById("playAgainBtn");
-  const clearChangeNameBtn = document.getElementById("clearChangeNameBtn");
+  const goHomeBtn = document.getElementById("goHomeBtn");
   const saveBtn = document.getElementById("saveBtn");
   const saveStatusEl = document.getElementById("saveStatus");
   const leaderboardListEl = document.getElementById("leaderboardList");
@@ -413,7 +413,7 @@
       const taken = await isNameTaken(playerName);
       if (taken) {
         setSaveStatus(
-          "이미 등록된 이름입니다. 이름 변경 후 다시 저장해 주세요.",
+          "이미 등록된 이름입니다. 처음으로 돌아가 다른 이름을 사용해 주세요.",
           "error"
         );
         saveBtn.disabled = false;
@@ -450,15 +450,16 @@
     }
   }
 
-  function resetRound() {
+  /** 한 판 더: 저장 전이면 같은 이름으로 바로 재시작, 저장 후면 새 이름 입력 */
+  function playAgain() {
     if (status === "idle" || !playerName) {
-      showStartScreen();
+      showStartScreen({ clearInput: true });
       return;
     }
 
     if (scoreSaved) {
       showStartScreen({
-        message: "이미 저장된 이름입니다. 다른 이름으로 도전해 주세요.",
+        message: "기록이 저장된 이름입니다. 다른 이름으로 도전해 주세요.",
         messageType: "error",
         clearInput: true,
       });
@@ -466,6 +467,11 @@
     }
 
     beginRound();
+  }
+
+  /** 처음으로: 이름 입력 화면부터 다시 */
+  function goHome() {
+    showStartScreen({ clearInput: true });
   }
 
   startBtn.addEventListener("click", () => {
@@ -477,12 +483,10 @@
       startGame();
     }
   });
-  resetBtn.addEventListener("click", resetRound);
-  playAgainBtn.addEventListener("click", resetRound);
+  resetBtn.addEventListener("click", playAgain);
+  playAgainBtn.addEventListener("click", playAgain);
+  goHomeBtn.addEventListener("click", goHome);
   changeNameBtn.addEventListener("click", () => {
-    showStartScreen({ keepInput: true });
-  });
-  clearChangeNameBtn.addEventListener("click", () => {
     showStartScreen({ keepInput: true });
   });
   saveBtn.addEventListener("click", () => {
