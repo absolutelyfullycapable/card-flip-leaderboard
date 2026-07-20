@@ -1,4 +1,4 @@
-# Card Flip Leaderboard
+# ♣️ Card Flip Leaderboard
 
 HTML / CSS / Vanilla JS로 만든 **카드 짝 맞추기 게임**입니다.  
 클리어 기록은 **Supabase** `scores` 테이블에 저장되며, Top 10 리더보드로 표시됩니다.
